@@ -20,7 +20,7 @@
   }
 
   function videos() {
-    return [...byId("rollout-grid").querySelectorAll("video")];
+    return [...document.querySelectorAll("#rollout-grid video, #real-grid video")];   // the simulation tiles and the real-robot clips
   }
 
   // Clips are only attached once the grid is close to the screen, so opening the page downloads none of them.
@@ -126,6 +126,7 @@
   toggle.innerHTML = '<svg viewBox="0 0 20 20" aria-hidden="true"><path/></svg>';
   toggle.addEventListener("click", () => { stopped = !videos().every(video => video.paused); play(false, true); });
   byId("rollout-levels").append(toggle);
+  for (const video of document.querySelectorAll("#real-grid video")) { video.addEventListener("play", showState); video.addEventListener("pause", showState); }
   lessMotion.addEventListener("change", () => { if (lessMotion.matches) { stopped = true; play(false); } });
 
   if ("IntersectionObserver" in window) {
@@ -133,11 +134,14 @@
       if (!entries.some(entry => entry.isIntersecting)) return;
       approach.disconnect(); near = true; attach(); play(false);
     }, { rootMargin: "400px 0px" });
-    approach.observe(byId("rollout-grid"));
-    new IntersectionObserver(entries => {
-      visible = entries[0].isIntersecting;
+    const grids = [byId("rollout-grid"), byId("real-grid")].filter(Boolean), onScreen = new Map();
+    for (const grid of grids) approach.observe(grid);
+    const watch = new IntersectionObserver(entries => {   // the clips run while either grid is on screen
+      for (const entry of entries) onScreen.set(entry.target, entry.isIntersecting);
+      visible = [...onScreen.values()].some(Boolean);
       play(false);
-    }, { threshold: 0.2 }).observe(byId("rollout-grid"));
+    }, { threshold: 0.2 });
+    for (const grid of grids) watch.observe(grid);
   } else {
     visible = near = true;
   }

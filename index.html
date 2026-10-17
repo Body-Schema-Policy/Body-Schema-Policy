@@ -145,7 +145,21 @@
         </figure>
         <noscript><p class="noscript-message">The rollout videos need JavaScript.</p></noscript>
         <h3 class="subsection-title real-world-title">Real world</h3>
-        <div class="results-placeholder"><div><h3>Real-robot rollouts</h3></div><p>Videos of the three Unitree G1 tasks are coming soon.</p></div>
+        <figure class="viewer-shell real-world-shell">
+          <div class="rollout-grid real-world-grid" id="real-grid">
+            <figure class="rollout-tile is-ours">
+              <video muted loop playsinline preload="metadata" poster="static/videos/real/trash-bin-poster.webp" data-src="static/videos/real/trash-bin.mp4" aria-label="BSP on the real G1, trash-bin task: the robot picks up the item, opens the bin with a foot and throws the item in"></video>
+              <figcaption><span class="rollout-name">Trash bin</span><span class="rollout-badge success">Success</span></figcaption>
+              <p class="rollout-count real-world-desc">Pick · Open Trash Bin · Throw</p>
+            </figure>
+            <figure class="rollout-tile is-ours">
+              <video muted loop playsinline preload="metadata" poster="static/videos/real/trolley-poster.webp" data-src="static/videos/real/trolley.mp4" aria-label="BSP on the real G1, trolley task: the robot grasps the handle and pushes the trolley forward"></video>
+              <figcaption><span class="rollout-name">Trolley</span><span class="rollout-badge success">Success</span></figcaption>
+              <p class="rollout-count real-world-desc">Loco · Grasp · Push Trolley</p>
+            </figure>
+          </div>
+          <figcaption>External camera view of the real G1. The deployed policy is a flow-matching variant of BSP that outputs SONIC motion tokens.</figcaption>
+        </figure>
       </div>
     </section>
 
